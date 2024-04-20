@@ -1,0 +1,49 @@
+; Function .onInit
+;   SetOutPath $INSTDIR
+;   ${LogSet} on
+; FunctionEnd
+ 
+# default section start; every NSIS script has at least one section.
+Section 001
+  MessageBox MB_OK "Hello world!"
+# default section end
+SectionEnd
+
+Section 002
+  MessageBox MB_OK "Now We are Creating Hello_world.txt at $EXEDIR!"
+  /* open an output file called "Hello_world.txt", 
+  on the desktop in write mode. This file does not need to exist 
+  before script is compiled and run */
+  FileOpen $0 "$EXEDIR\Hello_world.txt" w
+  # write the string "hello world!" to the output file
+  FileWrite $0 "hello world!"
+  # close the file
+  FileClose $0
+  # Show Success message.
+  MessageBox MB_OK "Hello_world.txt has been created successfully at $EXEDIR!"
+SectionEnd
+
+Section 003
+  # define the output path for this file
+  SetOutPath $INSTDIR
+  # define what to install and place it in the output path
+  File index.js
+  # define uninstaller name
+  ; WriteUninstaller $INSTDIR\uninstaller.exe
+SectionEnd
+
+; Not sure why windows defender treat out uninstaller as a virus?
+
+; # create a section to define what the uninstaller does.
+; # the section will always be named "Uninstall"
+; # this section work only if we WriteUninstaller above otherwise `makensis` will warn us
+; Section "Uninstall"
+;   # Delete installed file
+;   Delete $INSTDIR\test.txt
+;   Delete $INSTDIR\index.js
+;   # Delete the uninstaller
+;   Delete $INSTDIR\uninstaller.exe
+;   # Delete the directory
+;   RMDir $INSTDIR
+; SectionEnd
+
